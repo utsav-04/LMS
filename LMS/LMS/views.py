@@ -1,12 +1,16 @@
 from django.shortcuts import redirect,render
-
+from app.models import categories
 
 def BASE(request):
     return render(request,'base.html')
 
 
 def HOME(request):
-    return render(request,'Main/home.html')
+    category=categories.objects.all().order_by('id')[0:5]
+    context = {
+        'category':category,
+    }
+    return render(request,'Main/home.html',context)
 
 
 def SINGLE_COURSE(request):
