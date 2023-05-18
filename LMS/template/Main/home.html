@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
+{% load course_tags %}
 
     <!-- HERO
     ================================================== -->
@@ -162,8 +163,8 @@
                                             </div>
 
                                             <div class="col-auto px-2 text-right">
-                                                <del class="font-size-sm">₹ 959</del>
-                                                <ins class="h4 mb-0 d-block mb-lg-n1">₹ {{i.price}}</ins>
+                                                <del class="font-size-sm">₹ {{i.price}}</del>
+                                                <ins class="h4 mb-0 d-block mb-lg-n1">₹ {% discount_calculation i.price i.discount %}</ins>
                                             </div>
                                         </div>
                                     </div>
@@ -274,8 +275,8 @@
                                             </div>
 
                                             <div class="col-auto px-2 text-right">
-                                                <del class="font-size-sm">₹ 959</del>
-                                                <ins class="h4 mb-0 d-block mb-lg-n1">₹ {{i.price}}</ins>
+                                                <del class="font-size-sm">₹ {{i.price}}</del>
+                                                <ins class="h4 mb-0 d-block mb-lg-n1">₹ {% discount_calculation i.price i.discount %}</ins>
                                             </div>
                                         </div>
                                     </div>
