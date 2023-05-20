@@ -6,12 +6,21 @@ class categories(models.Model):
 
     def __str__(self):
         return self.name
-# Create your models here.
+
+    def get_all_category(self):
+        return categories.objects.all().order_by('id')
+
 
 class Author(models.Model):
     author_profile = models.ImageField(upload_to="Media/author")
     name = models.CharField(max_length=100, null=True)
     about_author = models.TextField()
+
+    def __str__(self):
+        return self.name
+
+class Level(models.Model):
+    name=models.CharField(max_length=100)
 
     def __str__(self):
         return self.name
@@ -28,6 +37,7 @@ class Course(models.Model):
     created_at = models.DateField(auto_now_add=True)
     author = models.ForeignKey(Author,on_delete=models.CASCADE,null=True)
     category = models.ForeignKey(categories,on_delete=models.CASCADE)
+    level=models.ForeignKey(Level,on_delete=models.CASCADE,null=True)
     description = models.TextField()
     price = models.IntegerField(null=True,default=0)
     discount = models.IntegerField(null=True)

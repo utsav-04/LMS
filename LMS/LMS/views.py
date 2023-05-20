@@ -1,5 +1,5 @@
 from django.shortcuts import redirect,render
-from app.models import categories,Course
+from app.models import categories,Course,Level
 
 
 def BASE(request):
@@ -18,7 +18,15 @@ def HOME(request):
 
 
 def SINGLE_COURSE(request):
-    return render(request,'Main/single_course.html')
+    category = categories.get_all_category(categories)
+    level=Level.objects.all()
+    course=Course.objects.all()
+    context={
+        'category':category,
+        'level':level,
+        'course':course,
+    }
+    return render(request,'Main/single_course.html',context)
 
 
 def contact_us(request):
