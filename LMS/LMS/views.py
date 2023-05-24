@@ -63,8 +63,50 @@ def filter_data(request):
     return JsonResponse({'data': t})
 
 def contact_us(request):
-    return render(request,'Main/contact_us.html')
+    category=categories.get_all_category(categories)
+    context={
+        'category':category,
+    }
+    return render(request,'Main/contact_us.html',context)
 
 
 def about_us(request):
-    return render(request,'Main/about_us.html')
+    category = categories.get_all_category(categories)
+    context = {
+        'category': category,
+    }
+    return render(request,'Main/about_us.html',context)
+
+
+def SEARCH_COURSE(request):
+    query =request.GET['query']
+    course=Course.objects.filter(title__icontains = query)
+    category = categories.get_all_category(categories)
+    context = {
+        'course':course,
+        'category': category,
+    }
+    return render(request,'search/search.html',context)
+
+
+def COURSE_DETAILS(request,slug):
+    course = Course.objects.filter(slug=slug)
+    category = categories.get_all_category(categories)
+    if course.exists():
+        course = course.first()
+    else:
+        return redirect('404')
+
+    context = {
+        'course': course,
+        'category': category,
+    }
+    return render(request,'course/course_details.html',context)
+
+
+def PAGE_NOT_FOUND(request):
+    category = categories.get_all_category(categories)
+    context = {
+        'category': category,
+    }
+    return render(request,'error/404.html',context)
