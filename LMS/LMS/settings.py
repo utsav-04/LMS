@@ -128,4 +128,7 @@ EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'utsavraj.ptn04@gmail.com'
-EMAIL_HOST_PASSWORD = '***********'
+EMAIL_HOST_PASSWORD = 'zvhejlhuonngfiqb'
+
+KEY_ID = "rzp_test_mmneeFWZpDjxjc"
+KEY_SECRET = "ClUzSuXONwmRR4J7oHpKklb7"

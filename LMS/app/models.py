@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.text import slugify
 from django.db.models.signals import pre_save
+from django.contrib.auth.models import User
 
 class categories(models.Model):
     icon=models.CharField(max_length=200,null=True)
@@ -27,6 +28,12 @@ class Level(models.Model):
     def __str__(self):
         return self.name
 
+class Language(models.Model):
+    language=models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.language
+
 class Course(models.Model):
     STATUS = (
         ('PUBLISH','PUBLISH'),
@@ -45,7 +52,9 @@ class Course(models.Model):
     discount = models.IntegerField(null=True)
     slug = models.SlugField(default='', max_length=500, null=True, blank=True)
     status = models.CharField(choices=STATUS,max_length=100,null=True)
-
+    language=models.ForeignKey(Language,on_delete=models.CASCADE,null=True)
+    Deadline=models.CharField(max_length=100,null=True)
+    Certificate = models.CharField(max_length=100,null=True)
 
     def __str__(self):
         return self.title
@@ -73,3 +82,56 @@ def pre_save_post_receiver(sender, instance, *args, **kwargs):
         instance.slug = create_slug(instance)
 
 pre_save.connect(pre_save_post_receiver, Course)
+
+class what_you_learn(models.Model):
+    course=models.ForeignKey(Course,on_delete=models.CASCADE)
+    points=models.CharField(max_length=500)
+
+    def __str__(self):
+        return self.points
+
+class Requirements(models.Model):
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    points = models.CharField(max_length=500)
+
+    def __str__(self):
+        return self.points
+
+class Lesson (models. Model):
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    name = models. CharField(max_length=200)
+
+    def __str__ (self):
+        return self.name + " " + self.course.title
+
+class Video (models. Model):
+    serial_number = models. IntegerField(null=True)
+    thumbnail = models. ImageField(upload_to="Media/Yt Thumbnail", null=True)
+    course = models. ForeignKey (Course,on_delete=models.CASCADE)
+    lesson = models.ForeignKey (Lesson,on_delete=models.CASCADE)
+    title = models. CharField(max_length=100)
+    youtube_id = models. CharField(max_length=200)
+    time_duration = models. IntegerField(null=True)
+    preview = models. BooleanField(default=False)
+    def __str__ (self):
+        return self.title
+
+class UserCourse(models. Model):
+    user = models. ForeignKey(User, on_delete=models.CASCADE)
+    course = models. ForeignKey(Course, on_delete=models.CASCADE)
+    paid = models. BooleanField(default=0)
+    date = models. DateTimeField(auto_now_add=True)
+
+    def __str__ (self):
+        return self.user.first_name + " - " +self.course.title
+
+class Payment (models. Model):
+    order_id = models. CharField(max_length=100,null=True, blank=True)
+    payment_id = models. CharField(max_length=100, null=True, blank=True)
+    user_course = models. ForeignKey(UserCourse, on_delete=models.CASCADE, null=True)
+    user = models. ForeignKey (User, on_delete=models.CASCADE, null=True)
+    course = models. ForeignKey (Course,on_delete=models.CASCADE, null=True)
+    date = models. DateTimeField(auto_now_add=True)
+    status = models. BooleanField(default=False)
+    def __str__ (self):
+        return self.user.first_name + "-- " + self.course.title
