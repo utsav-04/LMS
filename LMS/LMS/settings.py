@@ -127,8 +127,11 @@ LOGOUT_REDIRECT_URL = 'login'
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'utsavraj.ptn04@gmail.com'
-EMAIL_HOST_PASSWORD = 'zvhejlhuonngfiqb'
 
-KEY_ID = "rzp_test_mmneeFWZpDjxjc"
-KEY_SECRET = "ClUzSuXONwmRR4J7oHpKklb7"
+
+
+EMAIL_HOST_USER=''
+EMAIL_HOST_PASSWORD = ''
+
+KEY_ID = ""
+KEY_SECRET = ""
